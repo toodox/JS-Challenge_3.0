@@ -45,7 +45,21 @@ const toDoList = document.querySelector(".js-toDoList");
 
 const TODOS_LS = "toDos";
 
-const toDos = []; //입력받은 투두들을 배열에 삽입하도록 함
+let toDos = []; //입력받은 투두들을 배열에 삽입하도록 함
+
+//투두리스트 삭제
+function deleteToDo(event) {
+  const btn = event.target;
+  const li = btn.parentNode;
+  toDoList.removeChild(li);
+  //filter는 함수 하나를 실행시킴
+  //filter는 모든 아이템을 통해 함수를 실행하고 true들만 모인 배열 실행
+  const cleanToDos = toDos.filter(function (toDo) {
+    return toDo.id !== parseInt(li.id);
+  });
+  toDos = cleanToDos;
+  saveToDos();
+}
 
 //투두들을 가져와서 로컬스토리지에 저장하는 함수
 function saveToDos() {
@@ -55,12 +69,11 @@ function saveToDos() {
 function paintToDo(toDoText) {
   const li = document.createElement("li");
   const delBtn = document.createElement("button");
-  const btnP = document.createElement("p");
   const span = document.createElement("span");
   const newId = toDos.length + 1; //배열의 길이를 알려주는 기능. (+1함.)
-  btnP.innerHTML = "❌";
+  delBtn.innerHTML = "❌";
+  delBtn.addEventListener("click", deleteToDo);
   span.innerText = toDoText;
-  delBtn.appendChild(btnP);
   li.appendChild(delBtn);
   li.appendChild(span);
   li.id = newId; //li에 아이디 부여
