@@ -45,17 +45,32 @@ const toDoList = document.querySelector(".js-toDoList");
 
 const TODOS_LS = "toDos";
 
+const toDos = []; //입력받은 투두들을 배열에 삽입하도록 함
+
+//투두들을 가져와서 로컬스토리지에 저장하는 함수
+function saveToDos() {
+  localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+}
+
 function paintToDo(toDoText) {
   const li = document.createElement("li");
   const delBtn = document.createElement("button");
   const btnP = document.createElement("p");
-  btnP.innerHTML = "❌";
   const span = document.createElement("span");
+  const newId = toDos.length + 1; //배열의 길이를 알려주는 기능. (+1함.)
+  btnP.innerHTML = "❌";
   span.innerText = toDoText;
   delBtn.appendChild(btnP);
   li.appendChild(delBtn);
   li.appendChild(span);
+  li.id = newId; //li에 아이디 부여
   toDoList.appendChild(li);
+  const toDoObj = {
+    text: toDoText,
+    id: newId,
+  };
+  toDos.push(toDoObj); //push를 사용해서 array 안에 element 하나를 넣어줄 수 있음
+  saveToDos(); //투두들 집어넣고 호출해야 함.
 }
 
 //이벤트 받아오는 함수
@@ -69,8 +84,12 @@ function handleSubmit(event) {
 
 //로컬스토리지에서 로드하는 함수
 function loadToDos() {
-  const toDos = localStorage.getItem(TODOS_LS);
-  if (toDos !== null) {
+  const loadedtoDos = localStorage.getItem(TODOS_LS);
+  if (loadedtoDos !== null) {
+    const parsedToDos = JSON.parse(loadedtoDos);
+    parsedToDos.forEach(function (toDo) {
+      paintToDo(toDo.text);
+    });
   }
 }
 
