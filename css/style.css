@@ -16,6 +16,12 @@ body {
   display: none;
 }
 
+.timeBoard {
+  font-size: 60px;
+}
+
+
+
 h1 {
   margin-block-start: 0;
   margin-block-end: 0;
