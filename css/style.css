@@ -18,9 +18,8 @@ body {
 
 .timeBoard {
   font-size: 60px;
+  text-align: center;
 }
-
-
 
 h1 {
   margin-block-start: 0;
